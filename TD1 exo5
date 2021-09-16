@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+'''
+:Titre : TD1
+:Auteur : Lorenzo 
+:Date : 15/09/2021
+
+Exercice n°5 du TD n°1
+'''
+annee = 4
+
+'''
+Après avoir déclaré une variable annee, définir une suite d'instructions qui permettra de dire si la valeur de cette variable est bissextile.
+
+A l'aide d'une boucle, déterminer les prochaines années bissextiles jusqu'en 2 500.
+'''
+
+if annee%4 == 0:
+    print("L'année est bissextile")
+else:
+    print("Ce n'est pas une année bissextile")
+
+for i in range(2021,2501):
+    if i%4 == 0:
+        print(f"{i} est une année bissextile\n")
+

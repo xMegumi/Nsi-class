@@ -2,7 +2,7 @@
 '''
 :Titre : TD1
 :Auteur : Lorenzo 
-:Date : 16/09/2021
+:Date : 15/09/2021
 
 Exercice n°5 du TD n°1
 '''
@@ -13,13 +13,17 @@ Après avoir déclaré une variable annee, définir une suite d'instructions qui
 
 A l'aide d'une boucle, déterminer les prochaines années bissextiles jusqu'en 2 500.
 '''
-
-if annee%4 == 0:
-    print("L'année est bissextile")
-else:
-    print("Ce n'est pas une année bissextile")
+nb_a = 0
 
 for i in range(2021,2501):
     if i%4 == 0:
-        print(f"{i} est une année bissextile\n")
+        if i%100 == 0:
+            if i%400 == 0:
+                print(i)
+                nb_a += 1
+        else:
+            print(i)
+            nb_a += 1
+print(f"Il y a {nb_a} années bissextiles entre 2021 et 2500")
+        
 

@@ -154,9 +154,10 @@ elif est_bissextile == False and date1_annee != date2_annee:
     nb_jours_total += annee_f - nb_jours_temporaire
 
 # Calcul le nombre de jours de la dernière année si ce n'est pas la même que la première + addition des jours au total
-if date1_annee != date2_annee -1:
+if date1_annee != date2_annee:
     nb_jours_total += date2_jour -1
-    date2_mois -= 1
+    if date1_mois != date2_mois:
+        date2_mois -= 1
 
 # Vérifie si l'année de la plus récente date est bissextile ou non + ajoute en conséquence le mounth_dictionary
 if(date2_annee%4==0 and date2_annee%100!= 0 or date2_annee%400==0):
@@ -185,6 +186,7 @@ elif first_year == True and last_year == False:
     print(first_year), print(last_year)
 
 if date2_annee - date1_annee > 0:
+    print("fait")
     date_temporaire = date2_annee - date1_annee
     while date_temporaire - tour >= 0:
         if(date1_annee%4==0 and date1_annee%100!= 0 or date1_annee%400==0):
@@ -199,3 +201,4 @@ if date2_annee - date1_annee > 0:
     print("Le nombre de jours entre les deux dates est de :", nb_jours_total, "jours")
 else:
     print("Le nombre de jours entre les deux dates est de :", nb_jours_total, "jours")
+

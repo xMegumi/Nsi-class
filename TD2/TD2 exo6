@@ -16,6 +16,6 @@ texte = "Un ordinateur est un système de traitement de l'information programmab
 # Je créé une liste des mots 
 liste_de_mots = texte.split()
 
-# Puis je calcul le nombre de mot dans la liste
+# Puis je calcul le nombre de mots dans la liste
 words_in_text = len(liste_de_mots)
 print("Il y a", words_in_text,"mots dans le texte.")

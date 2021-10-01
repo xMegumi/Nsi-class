@@ -23,7 +23,6 @@ Déterminer le nombre de jours entre ces deux dates
 '''
 
 # Demande des dates à l'utilisateur
-from datetime import date
 
 
 jour1, mois1, annee1 = int(input("Entrez le jour : ")), int(input("Entrez le mois : ")), int(input("Entrez l'année : "))
@@ -98,6 +97,8 @@ est_bissextile = False
 nb_jours_total = 0
 first_year = False
 last_year = False
+nb_jours_debut = 0
+nb_jours_fin = 0
 
 # Variable utile pour calculer le nombre de jours restant d'une année utile pour le calcul de la première année 
 nb_jours_temporaire = 0
@@ -107,38 +108,54 @@ month_dictionary = {"janvier" : 31, "fevrier" : 28, "mars": 31, "avril": 30, "ma
 
 # Calcul le nombre de jours de la première année + addition des jours au total
 date1_mois -= 1
-nb_jours_total += date1_jour
+nb_jours_total += date1_jour -1
 # Variable utile pour calculer le nombre de jours restant d'une année utile pour le calcul de la première année 
 nb_jours_temporaire = 0
 
 # Vérifie si l'année de la plus ancienne date est bissexitle ou non + ajoute en conséquence le mounth_dictionary
 if(date1_annee%4==0 and date1_annee%100!= 0 or date1_annee%400==0):
     month_dictionary.update({"fevrier": 29})
+    print(month_dictionary)
     est_bissextile = True
 else:
     est_bissextile = False
     month_dictionary.update({"fevrier": 28})
 
 # Calcul le nombre de jours du début de l'année jusqu'à la date
-for key, value in month_dictionary.items():
-    first_year = True
-    if date1_mois > 0:
-        nb_jours_temporaire += value
-        date1_mois -= 1
-    else:
-        continue
+first_year = True
+if date1_annee != date2_annee:
+    for key,value in month_dictionary.items():
+        for i in range(date1_annee, date2_annee):
+            if date1_mois > 0:
+                nb_jours_temporaire += value
+                date1_mois -= 1
+            else:
+                continue
+else:    
+    for key, value in month_dictionary.items():
+        if date2_mois <= date1_mois:
+            nb_jours_debut += value
+            date2_mois -= 1
+        else:
+            break
+    nb_jours_debut -= date1_jour
+    date2_jour = date2_jour - 1
+    nb_jours_total += nb_jours_debut + date2_jour
+    print(nb_jours_debut, date2_jour)
+print(nb_jours_total)
+        
+   
 # Calcul grâce au nombre de jours du début de la plus ancienne année le nombre de jours restant + les additions au total
-if est_bissextile == True:
+if est_bissextile == True and date1_annee != date2_annee:
     annee_f = 366
     nb_jours_total += annee_f - nb_jours_temporaire
-elif est_bissextile == False:
+elif est_bissextile == False and date1_annee != date2_annee:
     annee_f = 365
     nb_jours_total += annee_f - nb_jours_temporaire
-# Retire l'année calculée
 
 # Calcul le nombre de jours de la dernière année si ce n'est pas la même que la première + addition des jours au total
 if date1_annee != date2_annee -1:
-    nb_jours_total += date2_jour
+    nb_jours_total += date2_jour -1
     date2_mois -= 1
 
 # Vérifie si l'année de la plus récente date est bissextile ou non + ajoute en conséquence le mounth_dictionary
@@ -162,8 +179,10 @@ if date1_annee != date2_annee:
 # Calcul du nombre de jours des années/mois/jours restant + additions des jours au total
 if first_year == True and last_year == True:
     tour = 2
+    print(first_year), print(last_year)
 elif first_year == True and last_year == False:
     tour = 1
+    print(first_year), print(last_year)
 
 if date2_annee - date1_annee > 0:
     date_temporaire = date2_annee - date1_annee

@@ -1,10 +1,10 @@
 import random 
 import unicodedata
 
-from fonctions import remove_accents, indices
+from functions import remove_accents, indices
 
 # Génère un mot aléatoire à partir du fichier txt "liste_francais"
-random_words = random.choice(open("projet\liste_francais.txt","r").readlines())
+random_words = random.choice(open("Projet_1\list_of_french_words.txt","r").readlines())
 words = random_words.upper()
 words = list(remove_accents(words))
 words.remove("\n")

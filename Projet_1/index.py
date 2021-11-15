@@ -1,5 +1,4 @@
 import random 
-import unicodedata
 
 from functions import remove_accents, indices
 

@@ -1,48 +1,96 @@
-import random 
+import random
+from time import sleep
 
-from functions import remove_accents, indices
+from functions import *
+from graph import *
 
-# Génère un mot aléatoire à partir du fichier txt "liste_francais"
-random_words = random.choice(open("Projet_1\list_of_french_words.txt","r").readlines())
-words = random_words.upper()
-words = list(remove_accents(words))
-words.remove("\n")
+# Création du choix que l'utilisateur doit faire
+choice = ""
+while choice != "joueur" and choice != "arbitre":
+    choice = input("Voulez-vous être le joueur ou l'arbitre ? [joueur/arbitre] ").lower()
+
+
+if choice == 'joueur':
+    # Génère un mot aléatoire à partir du fichier txt "mots_francais_sans_accents"
+    random_word = random.choice(open("Projet_1\mots_francais_sans_accents.txt","r").readlines())
+
+    # Transforme le mot en majuscule 
+    word = random_word.upper()
+
+    # Transforme le mot en liste puis retire "\n" de la fin.'
+    word = list(word)
+    word.remove("\n")
+else:
+    # Demande un mot, retire ses accents puis le met en majuscule
+    word = str(input("veuillez entrer un mot : "))
+    word = remove_accents(word).upper()
+    word = list(word)
 
 
 # Création des variables utiles au programme.
-affichage = []
+letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 erreur = 0
+affichage = []
 lettre_memoire = []
 
 # Fabrication de l'affichage les caractères deviennent des "*" et les espaces deviennent des "-".
-for i in range(len(words)):
-    if words[i] == " ":
-        words[i] = "-"
+for i in range(len(word)):
+    if word[i] == " " or word[i] == "-":
+        word[i] = "-"
         affichage.append("-")
     else:
         affichage.append("*")
 
+
 # Boucle principale du programme.
 print(*affichage)
-while erreur < 8:
-    if affichage == words:
-        print('Bravo, vous avez gagné !')
-        quit()
-    else:
+while erreur < 8 and affichage != word:
+    if choice == 'joueur':
         lettre = str(input("Entrez une lettre : ")).upper()
+
+        # Vérifie si l'utilisateur ne donne qu'une seule lettre.
         if len(lettre) != 1:
             print("Entrer une seule lettre.")
-        else:
-            if lettre in lettre_memoire:
-                print("Cette lettre à déjà été utilisé.")
-            elif lettre in words:
-                lettre_memoire.append(lettre)
-                for i in indices(lettre, words):
-                    affichage[i] = lettre
+            
+        elif lettre in lettre_memoire:
+            print("Cette lettre à déjà été utilisé.")
+
+    else:
+        sleep(1.5)
+        lettre = random.choice(letters).upper()
+
+    # Vérifie si la lettre est dans le mot 
+    if lettre in word:
+        lettre_memoire.append(lettre)
+        
+        # Utilise le return de la fonction 'indices" pour l'affichage.
+        for i in indices(lettre, word):
+            affichage[i] = lettre
+            if choice == 'joueur':
                 print(*affichage)
             else:
-                erreur += 1
-                print("Vous avez fait ", erreur, "erreurs.")
+                print("L'ordinateur a trouvé une lettre : ", lettre)
                 print(*affichage)
-                
-print("Vous avez perdu. Le mot était", *words)
+        
+    else:
+        lettre_memoire.append(lettre)
+        erreur += 1
+        print(graph[erreur-1])
+        if choice == 'joueur':
+            print(*affichage)
+        else:
+            print("L'ordinateur s'est trompé. Lettre :", lettre)
+            print(*affichage)
+
+
+# Affiche la victoire ou la défaite.
+if choice == 'joueur':
+    if erreur == 8:
+        print("Vous avez perdu, le mot était :",*word)
+    else:
+        print("Vous avez gagner")
+else:
+    if erreur == 8:
+        print("Vous avez gagner, l'ordinateur a perdu !")
+    else:
+        print("Bravo ! L'ordinateur a perdu.")

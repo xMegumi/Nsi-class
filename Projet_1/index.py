@@ -22,7 +22,7 @@ if choice == 'joueur':
     word.remove("\n")
 else:
     # Demande un mot, retire ses accents puis le met en majuscule
-    word = str(input("veuillez entrer un mot : "))
+    word = str(input("Veuillez entrer un mot : "))
     word = remove_accents(word).upper()
     word = list(word)
 
@@ -47,25 +47,27 @@ print(*affichage)
 while erreur < 8 and affichage != word:
     if choice == 'joueur':
         lettre = str(input("Entrez une lettre : ")).upper()
-
-        # Vérifie si l'utilisateur ne donne qu'une seule lettre.
-        if len(lettre) != 1:
-            print("Entrer une seule lettre.")
-            
-        elif lettre in lettre_memoire:
-            print("Cette lettre à déjà été utilisé.")
-
     else:
         sleep(1.5)
         lettre = random.choice(letters).upper()
+        letters.remove(lettre.lower())
+
+    # Vérifie si l'utilisateur ne donne qu'une seule lettre.
+    if len(lettre) != 1:
+            print("Entrer qu'une seule lettre.")
+
+    # Vérifie si la lettre dans la mémoire.        
+    elif lettre in lettre_memoire:
+            print("Cette lettre a déjà été utilisée.")
 
     # Vérifie si la lettre est dans le mot 
-    if lettre in word:
+    elif lettre in word:
         lettre_memoire.append(lettre)
         
         # Utilise le return de la fonction 'indices" pour l'affichage.
         for i in indices(lettre, word):
             affichage[i] = lettre
+
             if choice == 'joueur':
                 print(*affichage)
             else:
@@ -73,9 +75,11 @@ while erreur < 8 and affichage != word:
                 print(*affichage)
         
     else:
+
         lettre_memoire.append(lettre)
         erreur += 1
         print(graph[erreur-1])
+
         if choice == 'joueur':
             print(*affichage)
         else:

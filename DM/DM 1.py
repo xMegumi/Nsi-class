@@ -129,8 +129,3 @@ elif last_letter(verb, 5) in verb_e_5l:
 
 
 print(output)
-
-
-
-
-

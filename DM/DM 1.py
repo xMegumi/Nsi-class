@@ -12,6 +12,9 @@ DM n°1
 conjugaison au présent de l'indicatif
 '''
 
+import random
+
+
 def last_letter(word, number):
     '''Documentation:
 La fonction retourne le(s) 'number' dernière(s) lettre(s) du mot 'word'.
@@ -55,82 +58,131 @@ Example:
 
     return output
 
+start_end = ''
+choix = ''
+# Boucle du programme
+while start_end != 'stop':
+# Création du choix manuel ou random (facultatif).
+    random_v = random.choice((open('DM/first_group_verb.txt', 'r')).readlines())
+    if choix != 'manuel' and choix != 'random':
 
-verb = str(input("Veulliez entrer un verbe : "))
-verb_e_5l = ['ébrer', 'écher', 'écrer', 'égler', 'égner', 'égrer', 'éguer', 'équer', 'étrer', 'évrer',]
-verb_e_4l = ['écer', 'éder', 'éler', 'émer', 'éner', 'érer', 'éser', 'éter', 'éyer']
-verb = list(verb)
-
-
-if last_letter(verb, 3) == 'cer':
-    conj = termination(verb)
-    nous = str(conj[3]).replace('c','ç')
-    conj[3] = nous
-
-    output = conj
-
-elif last_letter(verb, 3) == 'ger':
-    conj = termination(verb)
-    nous = str(conj[3]).replace('c','ç')
-    conj[3] = nous
-    output = conj
-
-elif last_letter(verb, 4) == 'ayer' or last_letter(verb, 4) == 'uyer' or last_letter(verb, 4) == 'oyer':
-    verb[-3] = 'i'
-    output = termination(verb)
-
-elif last_letter(verb, 4) == 'eler':
-    verb[-2] = 'l'
-    verb[-1] = 'e'
-    verb.append('r')
-    conj = termination(verb)
-
-    nous = str(conj[3]).replace('l','')
-    vous = str(conj[4]).replace('l','')
-    conj[3] = nous
-    conj[4] = vous
-
-    output = conj
-
-elif last_letter(verb, 4) == 'eter':
-    verb[-2] = 't'
-    verb[-1] = 'e'
-    verb.append('r')
-    conj = termination(verb)
-
-    nous = str(conj[3]).replace('t','')
-    vous = str(conj[4]).replace('t','')
-    conj[3] = nous
-    conj[4] = vous
-
-    output = conj
-
-elif last_letter(verb, 4) in verb_e_4l:
-    verb[-4] = 'è'
-    conj = termination(verb)
-
-    nous = str(conj[3]).replace('è','é')
-    vous = str(conj[4]).replace('è','é')
-    conj[3] = nous
-    conj[4] = vous
-
-    output = conj
-
-elif last_letter(verb, 5) in verb_e_5l:
-    verb[-5] = 'è'
-    conj = termination(verb)
-
-    nous = str(conj[3]).replace('è','é')
-    vous = str(conj[4]).replace('è','é')
-    conj[3] = nous
-    conj[4] = vous
-
-    output = conj
+        while choix != 'manuel' and choix != 'random':
+            choix = input("Souhaitez-vous choisir le verbe ou générer automatiquement un verbe ?. [manuel/random] \n").lower()
+            if choix == 'random':
+                verb = random_v
+                print("Le verbe choisi est :", verb)
+                verb = list(verb)
+                verb.remove('\n')
+            elif choix == 'manuel':
+                verb = str(input("Veulliez entrer un verbe : "))
+                while last_letter(verb, 2) != 'er':
+                    print("Vous n'avez pas entrer un verbe du premier groupe.")
+                    verb = str(input("Veulliez entrer un verbe : "))
+                verb = list(verb)
+            else:
+                print("Entrer un choix correcte : [manuel ou random]")
+    else:
+        if choix == 'random':
+                verb = random_v
+                print("Le verbe choisi est :", verb)
+                verb = list(verb)
+                verb.remove('\n')
+        elif choix == 'manuel':
+            verb = str(input("Veulliez entrer un verbe : "))
+            while last_letter(verb, 2) != 'er':
+                print("Vous n'avez pas entrer un verbe du premier groupe.")
+                verb = str(input("Veulliez entrer un verbe : "))
+            verb = list(verb)
 
 
-print(output)
+    # Sert pour les dernières exceptions des conditions.
+    verb_e_5l = ['ébrer', 'écher', 'écrer', 'égler', 'égner', 'égrer', 'éguer', 'équer', 'étrer', 'évrer',]
+    verb_e_4l = ['écer', 'éder', 'éler', 'émer', 'éner', 'érer', 'éser', 'éter', 'éyer']
+
+    # Sert à l'affichage
+    pronon = ("Je/J'", "Tu/T'", "Il/Elle", 'Nous', 'Vous', 'Ils/Elles')
 
 
+    # Première condition pour les verbes 'cer' qui prennent une cédille pour 'nous'
+    if last_letter(verb, 3) == 'cer':
+        conj = termination(verb)
+        nous = str(conj[3]).replace('c','ç')
+        conj[3] = nous
 
+        output = conj
 
+    # Deuxième condition pour les verbes en "ger" qui gardent le "e" pour 'nous'.
+    elif last_letter(verb, 3) == 'ger':
+        conj = termination(verb)
+        nous_last_letter = last_letter(str(conj[3]), 3)
+        nous = str(conj[3]).replace(nous_last_letter, "eons")
+        conj[3] = nous
+        output = conj
 
+    # Troisième condition pour les verbes qui se termient en 'ayer', 'uyer', 'oyer' où le 'y' devient un 'i'.
+    elif last_letter(verb, 4) == 'ayer' or last_letter(verb, 4) == 'uyer' or last_letter(verb, 4) == 'oyer':
+        verb[-3] = 'i'
+        output = termination(verb)
+
+    # Quatrième condition pour les verbes en 'eler' qui double leur 'l'
+    elif last_letter(verb, 4) == 'eler':
+        verb[-2] = 'l'
+        verb[-1] = 'e'
+        verb.append('r')
+        conj = termination(verb)
+
+        nous = str(conj[3]).replace('l','')
+        vous = str(conj[4]).replace('l','')
+        conj[3] = nous
+        conj[4] = vous
+
+        output = conj
+
+    # Cinquième condition pour les verbes en 'eter' qui double leur 't'.
+    elif last_letter(verb, 4) == 'eter':
+        verb[-2] = 't'
+        verb[-1] = 'e'
+        verb.append('r')
+        conj = termination(verb)
+
+        nous = str(conj[3]).replace('t','')
+        vous = str(conj[4]).replace('t','')
+        conj[3] = nous
+        conj[4] = vous
+
+        output = conj
+
+    # sixième condition pour toutes les terminaisons dans la liste 'verb_e_4l' qui prennet un 'é' sauf pour 'nous' et 'vous'.
+    elif last_letter(verb, 4) in verb_e_4l:
+        verb[-4] = 'è'
+        conj = termination(verb)
+
+        nous = str(conj[3]).replace('è','é')
+        vous = str(conj[4]).replace('è','é')
+        conj[3] = nous
+        conj[4] = vous
+
+        output = conj
+
+    # septième condition pour toutes les terminaisons dans la liste 'verb_e_5l' qui prennet un 'é' sauf pour 'nous' et 'vous'.
+    elif last_letter(verb, 5) in verb_e_5l:
+        verb[-5] = 'è'
+        conj = termination(verb)
+
+        nous = str(conj[3]).replace('è','é')
+        vous = str(conj[4]).replace('è','é')
+        conj[3] = nous
+        conj[4] = vous
+
+        output = conj
+
+    # Dernière condition qui remplacer juste 'er' par les bonnes terminaisons.
+    else:
+        output = termination(verb)
+
+    place = 0
+
+    for conjugais in output:
+        print(pronon[place], conjugais)
+        place += 1
+    start_end = input("Souhaitez-vous continuer ou arrêter le programme ? [stop/*] \n")

@@ -58,7 +58,6 @@ Example:
 
     return output
 
-<<<<<<< HEAD
 start_end = ''
 choix = ''
 # Boucle du programme
@@ -187,79 +186,3 @@ while start_end != 'stop':
         print(pronon[place], conjugais)
         place += 1
     start_end = input("Souhaitez-vous continuer ou arrêter le programme ? [stop/*] \n")
-=======
-
-verb = str(input("Veulliez entrer un verbe : "))
-verb_e_5l = ['ébrer', 'écher', 'écrer', 'égler', 'égner', 'égrer', 'éguer', 'équer', 'étrer', 'évrer',]
-verb_e_4l = ['écer', 'éder', 'éler', 'émer', 'éner', 'érer', 'éser', 'éter', 'éyer']
-verb = list(verb)
-
-
-if last_letter(verb, 3) == 'cer':
-    conj = termination(verb)
-    nous = str(conj[3]).replace('c','ç')
-    conj[3] = nous
-
-    output = conj
-
-elif last_letter(verb, 3) == 'ger':
-    conj = termination(verb)
-    nous = str(conj[3]).replace('c','ç')
-    conj[3] = nous
-    output = conj
-
-elif last_letter(verb, 4) == 'ayer' or last_letter(verb, 4) == 'uyer' or last_letter(verb, 4) == 'oyer':
-    verb[-3] = 'i'
-    output = termination(verb)
-
-elif last_letter(verb, 4) == 'eler':
-    verb[-2] = 'l'
-    verb[-1] = 'e'
-    verb.append('r')
-    conj = termination(verb)
-
-    nous = str(conj[3]).replace('l','')
-    vous = str(conj[4]).replace('l','')
-    conj[3] = nous
-    conj[4] = vous
-
-    output = conj
-
-elif last_letter(verb, 4) == 'eter':
-    verb[-2] = 't'
-    verb[-1] = 'e'
-    verb.append('r')
-    conj = termination(verb)
-
-    nous = str(conj[3]).replace('t','')
-    vous = str(conj[4]).replace('t','')
-    conj[3] = nous
-    conj[4] = vous
-
-    output = conj
-
-elif last_letter(verb, 4) in verb_e_4l:
-    verb[-4] = 'è'
-    conj = termination(verb)
-
-    nous = str(conj[3]).replace('è','é')
-    vous = str(conj[4]).replace('è','é')
-    conj[3] = nous
-    conj[4] = vous
-
-    output = conj
-
-elif last_letter(verb, 5) in verb_e_5l:
-    verb[-5] = 'è'
-    conj = termination(verb)
-
-    nous = str(conj[3]).replace('è','é')
-    vous = str(conj[4]).replace('è','é')
-    conj[3] = nous
-    conj[4] = vous
-
-    output = conj
-
-
-print(output)
->>>>>>> fee5d78076a69ecebb03fec3403b0928a856cc5f
